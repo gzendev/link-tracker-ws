@@ -19,11 +19,11 @@ import com.fierastudio.linktracker.ws.message.ResponseMessage;
 @RestController
 public class LinkRestController {
 	
-    @Autowired
-    NamedParameterJdbcTemplate jdbcTemplate;
+    //@Autowired
+    //NamedParameterJdbcTemplate jdbcTemplate;
     
     @PostMapping
-	public ResponseEntity<ResponseMessage> create(@Valid @RequestBody(required = true) final String url) {
+	public ResponseEntity<ResponseMessage> create(@Valid @RequestBody(required = true) final String target) {
 	  return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(""));
 	}
 
