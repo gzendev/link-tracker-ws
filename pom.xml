@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fierastudio</groupId>
-    <artifactId>link-Tracker-ws</artifactId>
+    <artifactId>link-tracker-ws</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Api Rest Link Tracker (from https://github.com/gzendev/LinkTracker.git)</name>
@@ -19,7 +19,7 @@
         <log4jdbc.log4j2.version>1.16</log4jdbc.log4j2.version>
         <rest.assured.version>2.3.3</rest.assured.version>
         <spring-loaded.version>1.2.8.RELEASE</spring-loaded.version>
-        <jar.name>link-Tracker-ws</jar.name>
+        <jar.name>link-tracker-ws</jar.name>
     </properties>
     <dependencies>
         <dependency>

@@ -21,9 +21,10 @@ CREATE TABLE linktracker.link
     link_id bigint NOT NULL,
     expiration timestamp without time zone NOT NULL,
     original character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    redirect integer NOT NULL,
     shortened character varying(255) COLLATE pg_catalog."default" NOT NULL,
     token character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    redirect integer NOT NULL,
+    valid integer NOT NULL,
     CONSTRAINT link_pkey PRIMARY KEY (link_id)
 )
 

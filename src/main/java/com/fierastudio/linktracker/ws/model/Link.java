@@ -41,8 +41,12 @@ public class Link {
 	private String token;
 	
 	@NotNull
-	@Column(name = "redirect", updatable = false, nullable = false)
+	@Column(name = "redirect", updatable = true, nullable = false)
 	private Integer redirects;
+	
+	@NotNull
+	@Column(name = "valid", updatable = false, nullable = false)
+	private Integer valid;
 	
 	public static LinkDto fromModel(final Link link) {
 		return new LinkDto(link.getOriginal(), link.getShortened(), true);		

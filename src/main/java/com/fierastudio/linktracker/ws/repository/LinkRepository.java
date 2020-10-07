@@ -11,6 +11,7 @@ public interface LinkRepository extends JpaRepository<Link, Long> {
 	
 	Optional<Link> findById(long id);
 	
+	@Query(value = "SELECT l FROM Link l WHERE l.shortened = :shortened AND l.valid = 1")
 	Optional<Link> findByShortened(String shortened);
 	
 	@Query(value = "SELECT nextval('link_id_seq')", nativeQuery = true)

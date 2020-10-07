@@ -9,11 +9,12 @@ import lombok.Data;
 @ConfigurationProperties(prefix="server")
 public class Config {
 	
+	private String protocol;
 	private String domain;
 	private String subdomain;
 	
 	public String getBaseUrl() {
-		return domain + subdomain;
+		return protocol + "//" + domain + "/" + subdomain + "/";
 	}
 
 }

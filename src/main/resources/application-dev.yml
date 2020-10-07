@@ -23,5 +23,6 @@ spring:
     open-in-view: false
     generate-ddl: false
 server:
-  domain: 'http://localhost:8080/'
-  subdomain: 'l/'
+  protocol: 'http:'
+  domain: 'localhost:8080'
+  subdomain: 'l'
