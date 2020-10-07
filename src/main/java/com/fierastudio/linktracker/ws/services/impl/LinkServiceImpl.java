@@ -1,42 +1,41 @@
 package com.fierastudio.linktracker.ws.services.impl;
 
-import java.net.MalformedURLException;
 import java.util.Date;
 import java.util.Optional;
-import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.fierastudio.linktracker.ws.config.Config;
+import com.fierastudio.linktracker.ws.dto.LinkDto;
 import com.fierastudio.linktracker.ws.model.Link;
 import com.fierastudio.linktracker.ws.repository.LinkRepository;
-import com.fierastudio.linktracker.ws.response.LinkResponse;
 import com.fierastudio.linktracker.ws.services.LinkService;
 import com.fierastudio.linktracker.ws.util.Base62;
 
+@Service
 public class LinkServiceImpl implements LinkService {
 	
 	@Autowired
 	private LinkRepository linkRepository;
 	
-	private String generateShortLink(Link link) {
-		return Base62.encode(link.getId());
+	@Autowired
+	private Config config;
+	
+	private String generateShortenedLink(Long n) {
+		return Base62.encode(n);
 	}
 
-	public LinkResponse save(String originalLink, Date expiredDate) throws MalformedURLException {
-		String[] schemes = {"http","https"};
-		UrlValidator valid = new UrlValidator(schemes);
-		LinkResponse response = new LinkResponse();
-		
-		if (!valid.isValid(originalLink)) 
-			throw new MalformedURLException();
-		
-		Optional<Link> link = linkRepository.findByOriginalLink(originalLink);
+	public LinkDto save(final String original, final Date expiration, final String token) {
+		LinkDto response = new LinkDto();
+		Optional<Link> link = linkRepository.findByOriginal(original);
 		if(link.isPresent()) {
-			response.setTarget(link.get().getOriginalLink());
-			response.setLink(link.get().getShortenedLink());
+			response.setTarget(link.get().getOriginal());
+			response.setLink(link.get().getShortened());
 			response.setValid(true);
 		} else {
-			Link model = linkRepository.save(new Link(originalLink, null, expiredDate));
+			Long id = linkRepository.getNextSeriesId();
+			Link model = linkRepository.save(new Link(id, original, config.getBaseUrl() + generateShortenedLink(id), expiration, token, 0));
+			response = Link.fromModel(model);
 		}
 		return response;
 	}
-
 }

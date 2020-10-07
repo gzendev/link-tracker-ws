@@ -1,45 +1,33 @@
 package com.fierastudio.linktracker.ws.controller;
 
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.fierastudio.linktracker.ws.message.ResponseMessage;
+import com.fierastudio.linktracker.ws.dto.LinkDto;
+import com.fierastudio.linktracker.ws.dto.LinkRequest;
+import com.fierastudio.linktracker.ws.services.LinkService;
 
 @RestController
+@RequestMapping("/link")
 public class LinkRestController {
 	
-    //@Autowired
-    //NamedParameterJdbcTemplate jdbcTemplate;
+    @Autowired
+    private LinkService linkService;
     
-    @PostMapping
-	public ResponseEntity<ResponseMessage> create(@Valid @RequestBody(required = true) final String target) {
-	  return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(""));
+    @PostMapping("/create")
+	public ResponseEntity<LinkDto> create(@Valid @RequestBody(required = true) final LinkRequest request,
+										@Valid @RequestHeader(required = true) final String token) throws ParseException {
+      DateFormat format = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+	  return ResponseEntity.ok(linkService.save(request.getTarget(), format.parse(request.getExpiration()), token));
 	}
-
-    @RequestMapping("/l/{mask}")
-	public void redirect(HttpServletResponse response, @PathVariable final String mask) throws IOException {
-    	response.sendRedirect("unmasked");
-	}
-    
-    @GetMapping("/l/{mask}")
-	public ResponseEntity<ResponseMessage> statistic(@PathVariable final String mask) {
-    	return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(""));
-	}
-    
-    @PutMapping("/l/{mask}")
-    public ResponseEntity<ResponseMessage> invalidate(@PathVariable final String mask) {
-    	return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(""));
-    }
-    
 }

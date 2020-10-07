@@ -1,11 +1,13 @@
 package com.fierastudio.linktracker.ws.services;
 
-import java.net.MalformedURLException;
 import java.util.Date;
-import com.fierastudio.linktracker.ws.response.LinkResponse;
+import com.fierastudio.linktracker.ws.dto.LinkDto;
+import com.fierastudio.linktracker.ws.dto.StatisticDto;
 
 public interface LinkService {
 	
-	public LinkResponse save(String originalLink, Date expiredDate) throws MalformedURLException;
+	public LinkDto save(final String original, final Date expiration, final String token);
+	
+	public StatisticDto getStatistic(final String shortened);
 	
 }

@@ -50,6 +50,11 @@
 		    <artifactId>commons-validator</artifactId>
 		    <version>1.7</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <scope>runtime</scope>
+		</dependency>
     </dependencies>
     <build>
     	<finalName>${jar.name}</finalName>
@@ -58,9 +63,47 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                	<mainClass>ar.com.netian.ticket.ws.Application</mainClass>
 			        <executable>true</executable>
 			    </configuration>
             </plugin>
         </plugins>
     </build>
+    <profiles>
+	    <profile>
+	      <id>dev</id>
+	      <properties>
+	        <active.profile>dev</active.profile>
+	        <war.web.name>${jar.name}</war.web.name>
+	        <excludeDevtools>false</excludeDevtools>
+	      </properties>
+	      <activation>
+	        <activeByDefault>true</activeByDefault>
+	      </activation>
+	    </profile>
+	    <profile>
+	      <id>ci</id>
+	      <properties>
+	        <active.profile>ci</active.profile>
+	        <war.web.name>${jar.name}</war.web.name>
+	        <excludeDevtools>true</excludeDevtools>
+	      </properties>
+	    </profile>
+	    <profile>
+	      <id>qa</id>
+	      <properties>
+	        <active.profile>qa</active.profile>
+	        <war.web.name>${jar.name}</war.web.name>
+	        <excludeDevtools>true</excludeDevtools>
+	      </properties>
+	    </profile>
+	    <profile>
+	      <id>prd</id>
+	      <properties>
+	        <active.profile>prd</active.profile>
+	        <war.web.name>${jar.name}</war.web.name>
+	        <excludeDevtools>true</excludeDevtools>
+	      </properties>
+	    </profile>
+	 </profiles>
 </project>
